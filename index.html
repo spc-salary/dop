@@ -82,101 +82,73 @@ iframe.onload = () => {
 };
 </script>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>تثبيت التطبيق</title>
+<title>نظام الرواتب</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#0d6efd">
+
+<link rel="apple-touch-icon"
+href="https://cdn.phototourl.com/free/2026-07-12-eacb4075-a23b-456b-8b36-10fef90b261d.png">
 
 <style>
 body{
-margin:0;
 font-family:Tahoma;
-background:#f5f5f5;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
-}
-
-#box{
-width:90%;
-max-width:350px;
-background:#fff;
-border-radius:15px;
-padding:20px;
-box-shadow:0 5px 20px rgba(0,0,0,.2);
-text-align:center;
-display:none;
-}
-
-img{
-width:90px;
-height:90px;
-margin-bottom:10px;
+margin:0;
+background:#f5f5f5;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:10px;
+padding:15px 25px;
+font-size:18px;
 border:none;
-border-radius:8px;
-font-size:16px;
+border-radius:10px;
+background:#0d6efd;
+color:white;
 cursor:pointer;
 }
-
-.install{
-background:#0d6efd;
-color:#fff;
-}
-
-.close{
-background:#999;
-color:#fff;
-}
 </style>
-</head>
 
+</head>
 <body>
 
-<div id="box">
-
-<!-- ضع اسم صورة الأيقونة هنا -->
-<img src="icon.png">
-
-<h3>تثبيت التطبيق</h3>
-
-<p>
-للوصول السريع أضف الموقع إلى الشاشة الرئيسية.
-</p>
-
-<button class="install" onclick="go()">
-فتح الموقع
+<button id="install" style="display:none">
+📲 تثبيت التطبيق
 </button>
-
-<button class="close" onclick="document.getElementById('box').style.display='none'">
-إغلاق
-</button>
-
-<p style="font-size:13px;color:#666;margin-top:15px;">
-في Chrome اضغط ⋮ ثم
-<strong>إضافة إلى الشاشة الرئيسية</strong>
-</p>
-
-</div>
 
 <script>
 
-if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
-document.getElementById("box").style.display="block";
-}else{
-location.href="https://spc-salary.github.io/dop/";
-}
+let deferredPrompt;
 
-function go(){
-location.href="https://spc-salary.github.io/dop/";
+window.addEventListener("beforeinstallprompt",(e)=>{
+
+e.preventDefault();
+
+deferredPrompt=e;
+
+document.getElementById("install").style.display="block";
+
+});
+
+document.getElementById("install").onclick=async()=>{
+
+deferredPrompt.prompt();
+
+await deferredPrompt.userChoice;
+
+};
+
+if("serviceWorker" in navigator){
+navigator.serviceWorker.register("sw.js");
 }
 
 </script>
