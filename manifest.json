@@ -1,7 +1,8 @@
 {
   "name": "/ الاعمال اليومية /",
   "short_name": "/ الاعمال اليومية /",
-  "start_url": "/",
+  "start_url": "/dop/",
+  "scope": "/dop/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
