@@ -1,6 +1,6 @@
 {
-  "name": "/ الاعمال اليومية /",
-  "short_name": "/ الاعمال اليومية /",
+  "name": "الاعمال اليومية - المالية والحسابات",
+  "short_name": "الاعمال اليومية",
   "start_url": "/dop/",
   "scope": "/dop/",
   "display": "standalone",
