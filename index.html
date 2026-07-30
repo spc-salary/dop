@@ -160,5 +160,20 @@
     localStorage.setItem('install_dismissed', 'true');
   }
 </script>
+ <!-- كود تفعيل وضع ملء الشاشة تلقائياً عند أول تفاعل للمستخدم -->
+<script>
+    document.addEventListener('click', function() {
+        let elem = document.documentElement;
+        if (!document.fullscreenElement) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
+        }
+    }, { once: true });
+</script>
 </body>
 </html>
