@@ -160,31 +160,55 @@
     localStorage.setItem('install_dismissed', 'true');
   }
 </script>
-<!-- كود بديل لتفعيل وضع ملء الشاشة عبر محاولة فرض التنفيذ فور تحميل الصفحة وعند التفاعل -->
+<!-- أزرار التحكم بوضع ملء الشاشة -->
+<div id="fs-controls" style="position: fixed; top: 5px; right: 5px; z-index: 999999; display: flex; gap: 4px; opacity: 0.7; transition: opacity 0.3s;">
+    <button id="btn-enter-fs" style="width: 14px; height: 14px; padding: 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.6); border-radius: 2px; cursor: pointer;" title="ملء الشاشة"></button>
+    <button id="btn-exit-fs" style="width: 14px; height: 14px; padding: 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.6); border-radius: 2px; cursor: pointer;" title="خروج من ملء الشاشة"></button>
+</div>
+
+<!-- كود التشغيل والتحديث التلقائي وملء الشاشة -->
 <script>
     (function() {
-        function triggerFullscreen() {
+        function goFullscreen() {
             var elem = document.documentElement;
             var requestMethod = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
-            
-            if (requestMethod && !document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement) {
-                requestMethod.call(elem).catch(function(err) {
-                    // المتصفح يمنع التنفيذ التلقائي بدون تفاعل، سيتم تجاهل الخطأ والانتظار لأول لمسة
-                });
+            if (requestMethod && !document.fullscreenElement && !document.webkitFullscreenElement) {
+                requestMethod.call(elem).catch(function() {});
             }
         }
 
-        // محاولة التنفيذ فور تحميل الصفحة (قد تنجح في بعض المتصفحات أو الأجهزة)
-        window.addEventListener('load', triggerFullscreen);
+        function exitFullscreen() {
+            if (document.fullscreenElement || document.webkitFullscreenElement) {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
 
-        // التنفيذ الفوري عند أول نقرة أو لمسة على الشاشة في حال فشل البدء التلقائي
-        ['click', 'touchstart', 'keydown'].forEach(function(evt) {
-            document.addEventListener(evt, function() {
-                triggerFullscreen();
-            }, { once: true, capture: true });
+        // تفعيل ملء الشاشة مع كل تحديث للصفحة عند أول تففاعل أو لمسة
+        ['click', 'touchstart', 'load'].forEach(function(evt) {
+            window.addEventListener(evt, function() {
+                goFullscreen();
+            }, { once: true });
+        });
+
+        // ربط الأزرار بالوظائف
+        document.getElementById('btn-enter-fs').addEventListener('click', function(e) {
+            e.stopPropagation();
+            goFullscreen();
+        });
+
+        document.getElementById('btn-exit-fs').addEventListener('click', function(e) {
+            e.stopPropagation();
+            exitFullscreen();
         });
     })();
 </script>
-
 </body>
 </html>
