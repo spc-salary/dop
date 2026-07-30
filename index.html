@@ -160,20 +160,31 @@
     localStorage.setItem('install_dismissed', 'true');
   }
 </script>
- <!-- كود تفعيل وضع ملء الشاشة تلقائياً عند أول تفاعل للمستخدم -->
+<!-- كود بديل لتفعيل وضع ملء الشاشة عبر محاولة فرض التنفيذ فور تحميل الصفحة وعند التفاعل -->
 <script>
-    document.addEventListener('click', function() {
-        let elem = document.documentElement;
-        if (!document.fullscreenElement) {
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { /* IE/Edge */
-                elem.msRequestFullscreen();
+    (function() {
+        function triggerFullscreen() {
+            var elem = document.documentElement;
+            var requestMethod = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
+            
+            if (requestMethod && !document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement) {
+                requestMethod.call(elem).catch(function(err) {
+                    // المتصفح يمنع التنفيذ التلقائي بدون تفاعل، سيتم تجاهل الخطأ والانتظار لأول لمسة
+                });
             }
         }
-    }, { once: true });
+
+        // محاولة التنفيذ فور تحميل الصفحة (قد تنجح في بعض المتصفحات أو الأجهزة)
+        window.addEventListener('load', triggerFullscreen);
+
+        // التنفيذ الفوري عند أول نقرة أو لمسة على الشاشة في حال فشل البدء التلقائي
+        ['click', 'touchstart', 'keydown'].forEach(function(evt) {
+            document.addEventListener(evt, function() {
+                triggerFullscreen();
+            }, { once: true, capture: true });
+        });
+    })();
 </script>
+
 </body>
 </html>
