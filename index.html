@@ -160,55 +160,537 @@
     localStorage.setItem('install_dismissed', 'true');
   }
 </script>
-<!-- أزرار التحكم بوضع ملء الشاشة -->
-<div id="fs-controls" style="position: fixed; top: 5px; right: 5px; z-index: 999999; display: flex; gap: 4px; opacity: 0.7; transition: opacity 0.3s;">
-    <button id="btn-enter-fs" style="width: 14px; height: 14px; padding: 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.6); border-radius: 2px; cursor: pointer;" title="ملء الشاشة"></button>
-    <button id="btn-exit-fs" style="width: 14px; height: 14px; padding: 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.6); border-radius: 2px; cursor: pointer;" title="خروج من ملء الشاشة"></button>
+<!--
+====================================================
+نظام التحكم بملء الشاشة (Fullscreen Control System)
+
+الوصف:
+هذا الكود مسؤول عن:
+1- جعل صفحة الويب تعمل بوضع ملء الشاشة.
+2- توفير زر لتفعيل ملء الشاشة.
+3- توفير زر للخروج من ملء الشاشة.
+4- حفظ اختيار المستخدم.
+5- محاولة إعادة تفعيل ملء الشاشة بعد تحديث الصفحة.
+6- مناسب للكمبيوتر والموبايل.
+7- يعمل داخل Google Apps Script Web App.
+
+التقنيات المستخدمة:
+HTML + CSS + JavaScript
+
+====================================================
+-->
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<!--
+ضبط عرض الصفحة ليتناسب مع جميع الأجهزة
+كمبيوتر - هاتف - جهاز لوحي
+-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+نظام ملء الشاشة
+</title>
+
+
+<style>
+
+
+/*
+====================================================
+تنسيق الصفحة الرئيسية
+
+المهمة:
+- جعل الصفحة تأخذ كامل مساحة الشاشة.
+- إزالة الهوامش الخارجية.
+====================================================
+*/
+
+
+body{
+
+    margin:0;
+
+    height:100vh;
+
+    font-family:Tahoma, Arial;
+
+    background:#f5f5f5;
+
+}
+
+
+
+/*
+====================================================
+منطقة أزرار التحكم
+
+المهمة:
+- تثبيت الأزرار في زاوية الشاشة.
+- بقاؤها ظاهرة أثناء التصفح.
+====================================================
+*/
+
+
+.fullscreen-buttons{
+
+    position:fixed;
+
+    top:15px;
+
+    left:15px;
+
+    z-index:9999;
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+
+
+/*
+====================================================
+تصميم أزرار ملء الشاشة
+
+المهمة:
+- زر دائري صغير.
+- مناسب للمس في الهاتف.
+====================================================
+*/
+
+
+.fullscreen-buttons button{
+
+
+    width:35px;
+
+    height:35px;
+
+
+    border:none;
+
+    border-radius:50%;
+
+
+    background:#1a73e8;
+
+
+    color:white;
+
+
+    cursor:pointer;
+
+
+    font-size:16px;
+
+
+    box-shadow:
+    0 3px 8px rgba(0,0,0,.3);
+
+
+}
+
+
+
+/*
+تأثير عند مرور المؤشر
+*/
+
+.fullscreen-buttons button:hover{
+
+    transform:scale(1.1);
+
+}
+
+
+
+/*
+====================================================
+محتوى الصفحة
+
+المهمة:
+توسيط المحتوى داخل الشاشة
+====================================================
+*/
+
+
+.container{
+
+
+    width:100%;
+
+    height:100vh;
+
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+}
+
+
+
+/*
+بطاقة تجريبية للمحتوى
+
+يمكن استبدالها بمحتوى النظام الحقيقي
+*/
+
+.card{
+
+
+    background:white;
+
+
+    padding:40px;
+
+
+    border-radius:20px;
+
+
+    box-shadow:
+    0 5px 20px #ccc;
+
+
+    text-align:center;
+
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<!--
+====================================================
+أزرار التحكم بملء الشاشة
+
+الزر الأول:
+فتح ملء الشاشة
+
+الزر الثاني:
+الخروج من ملء الشاشة
+====================================================
+-->
+
+
+<div class="fullscreen-buttons">
+
+
+<button 
+onclick="openFullscreen()"
+title="فتح ملء الشاشة">
+
+⛶
+
+</button>
+
+
+
+<button
+onclick="exitFullscreen()"
+title="إلغاء ملء الشاشة">
+
+✕
+
+</button>
+
+
 </div>
 
-<!-- كود التشغيل والتحديث التلقائي وملء الشاشة -->
+
+
+
+
+<!--
+====================================================
+محتوى الصفحة
+
+ضع هنا محتوى موقعك أو النظام
+====================================================
+-->
+
+
+<div class="container">
+
+
+<div class="card">
+
+
+<h1>
+
+نظام إدارة المستودعات
+
+</h1>
+
+
+<p>
+
+صفحة تعمل بوضع ملء الشاشة
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
 <script>
-    (function() {
-        function goFullscreen() {
-            var elem = document.documentElement;
-            var requestMethod = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
-            if (requestMethod && !document.fullscreenElement && !document.webkitFullscreenElement) {
-                requestMethod.call(elem).catch(function() {});
-            }
-        }
 
-        function exitFullscreen() {
-            if (document.fullscreenElement || document.webkitFullscreenElement) {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-            }
-        }
 
-        // تفعيل ملء الشاشة مع كل تحديث للصفحة عند أول تففاعل أو لمسة
-        ['click', 'touchstart', 'load'].forEach(function(evt) {
-            window.addEventListener(evt, function() {
-                goFullscreen();
-            }, { once: true });
-        });
+/*
+====================================================
+دالة فتح ملء الشاشة
 
-        // ربط الأزرار بالوظائف
-        document.getElementById('btn-enter-fs').addEventListener('click', function(e) {
-            e.stopPropagation();
-            goFullscreen();
-        });
+المهمة:
+تحويل الصفحة بالكامل إلى وضع Fullscreen
+====================================================
+*/
 
-        document.getElementById('btn-exit-fs').addEventListener('click', function(e) {
-            e.stopPropagation();
-            exitFullscreen();
-        });
-    })();
+
+function openFullscreen(){
+
+
+
+let element=document.documentElement;
+
+
+
+if(element.requestFullscreen){
+
+
+element.requestFullscreen();
+
+
+}
+
+else if(element.webkitRequestFullscreen){
+
+
+element.webkitRequestFullscreen();
+
+
+}
+
+
+
+/*
+حفظ حالة المستخدم
+
+حتى يتم تذكر الاختيار
+*/
+
+localStorage.setItem(
+
+"fullscreen",
+
+"true"
+
+);
+
+
+
+}
+
+
+
+
+
+/*
+====================================================
+دالة الخروج من ملء الشاشة
+
+المهمة:
+إعادة الصفحة للوضع الطبيعي
+====================================================
+*/
+
+
+function exitFullscreen(){
+
+
+
+if(document.exitFullscreen){
+
+
+document.exitFullscreen();
+
+
+}
+
+else if(document.webkitExitFullscreen){
+
+
+document.webkitExitFullscreen();
+
+
+}
+
+
+
+/*
+تحديث حالة الحفظ
+*/
+
+localStorage.setItem(
+
+"fullscreen",
+
+"false"
+
+);
+
+
+
+}
+
+
+
+
+
+
+/*
+====================================================
+تشغيل تلقائي عند فتح الصفحة
+
+المهمة:
+قراءة اختيار المستخدم السابق
+ومحاولة إعادة ملء الشاشة
+
+ملاحظة:
+بعض المتصفحات تمنع التشغيل التلقائي
+لأسباب أمنية وتحتاج تفاعل المستخدم
+====================================================
+*/
+
+
+window.onload=function(){
+
+
+
+let savedStatus=
+localStorage.getItem("fullscreen");
+
+
+
+if(savedStatus==="true"){
+
+
+
+setTimeout(function(){
+
+
+
+try{
+
+
+openFullscreen();
+
+
+
+}
+
+catch(error){
+
+
+console.log(
+"المتصفح يحتاج موافقة المستخدم"
+);
+
+
+
+}
+
+
+
+},500);
+
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+/*
+====================================================
+مراقبة حالة ملء الشاشة
+
+المهمة:
+معرفة هل خرج المستخدم من الوضع الكامل
+====================================================
+*/
+
+
+document.addEventListener(
+
+"fullscreenchange",
+
+function(){
+
+
+
+if(!document.fullscreenElement){
+
+
+
+console.log(
+
+"تم الخروج من وضع ملء الشاشة"
+
+);
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
 </script>
+
+
+
+</body>
+
+</html>
 </body>
 </html>
