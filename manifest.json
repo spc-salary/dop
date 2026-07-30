@@ -1,53 +1,16 @@
 {
   "name": "الاعمال اليومية - المالية والحسابات",
   "short_name": "الاعمال اليومية",
-  "description": "نظام متكامل لإدارة الأعمال اليومية والشؤون المالية والحسابات بشكل احترافي وآمن",
-  "id": "/dop/",
-  "start_url": "/dop/?source=pwa",
+  "start_url": "/dop/",
   "scope": "/dop/",
-  "lang": "ar",
-  "dir": "rtl",
-
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
-
-  "orientation": "any",
-
-  "theme_color": "#1766C2",
   "background_color": "#1766C2",
-
-  "categories": ["finance", "business", "productivity"],
-
+  "theme_color": "#1766C2",
   "icons": [
     {
       "src": "https://i.ibb.co/PsVt0MSx/Kyo-Tux-Aeon-Misc-Document-256.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://i.ibb.co/PsVt0MSx/Kyo-Tux-Aeon-Misc-Document-256.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://i.ibb.co/PsVt0MSx/Kyo-Tux-Aeon-Misc-Document-256.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "sizes": "192x192 512x512",
+      "type": "image/png"
     }
-  ],
-
-  "screenshots": [
-    {
-      "src": "https://i.ibb.co/PsVt0MSx/Kyo-Tux-Aeon-Misc-Document-256.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "الاعمال اليومية - المالية والحسابات"
-    }
-  ],
-
-  "prefer_related_applications": false
+  ]
 }
