@@ -1,8 +1,8 @@
 {
   "name": "الاعمال اليومية - المالية والحسابات",
   "short_name": "الاعمال اليومية",
-  "start_url": "/dopgaz/",
-  "scope": "/dopgaz/",
+  "start_url": "/dop/",
+  "scope": "/dop/",
   "display": "standalone",
   "background_color": "#1766C2",
   "theme_color": "#1766C2",
