@@ -5,7 +5,7 @@
 //               Network-First لطلبات API
 // ====================================================
 
-var CACHE_NAME = 'dop-v1';
+var CACHE_NAME = 'dop-v2';
 
 // الملفات الثابتة التي نُخزّنها محلياً
 var STATIC_ASSETS = [
@@ -16,6 +16,7 @@ var STATIC_ASSETS = [
   './js/api.js',
   './js/app.js',
   './manifest.json',
+  './assets/unnamed.png',
   'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
   'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',

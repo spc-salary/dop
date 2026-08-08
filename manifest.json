@@ -1,16 +1,17 @@
 {
   "name": "الاعمال اليومية - المالية والحسابات",
   "short_name": "الاعمال اليومية",
-  "start_url": "/dop/",
-  "scope": "/dop/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#1766C2",
-  "theme_color": "#1766C2",
+  "background_color": "#1565C0",
+  "theme_color": "#1565C0",
   "icons": [
     {
-      "src": "https://i.ibb.co/PsVt0MSx/Kyo-Tux-Aeon-Misc-Document-256.png",
-      "sizes": "192x192 512x512",
-      "type": "image/png"
+      "src": "/assets/unnamed.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
